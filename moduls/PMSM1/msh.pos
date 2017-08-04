@@ -1,0 +1,5 @@
+// merge CAD file
+Merge "pmsm_cbmag.msh";
+
+// print image
+Print "pmsm_cbmag_msh.png";

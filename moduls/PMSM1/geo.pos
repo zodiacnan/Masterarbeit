@@ -1,0 +1,5 @@
+// merge CAD file
+Merge "pmsm_cbmag.geo";
+
+// print image
+Print "pmsm_cbmag.png";

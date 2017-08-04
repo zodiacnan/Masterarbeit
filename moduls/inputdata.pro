@@ -1,0 +1,10 @@
+Flag_AnalysisType = 1 ;
+Flag_SaveAllSteps = 1 ;
+Clean_Results = 1 ;
+Flag_ImposedSpeed = 1;
+Flag_SrcType_Stator = 0 ;
+Flag_Cir = 1 ;Flag_SrcType_Rotor = 0 ;
+thetaMax_deg = 180;
+NbSteps = 180;
+Freq = 100;
+Ie = 0;
