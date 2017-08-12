@@ -202,10 +202,12 @@ class Solver_Cal(QWidget):
         self.formGroupBox = QGroupBox()
         self.buttonbox = QDialogButtonBox()
         self.buttonbox = QDialogButtonBox(QtCore.Qt.Horizontal)
+        self.tipbutton = QPushButton("Tips to select functions")
         self.ironbutton = QPushButton("Iron Loss Setup",self)
         
         self.savebutton = QPushButton("Save", self)
         self.returnbutton = QPushButton("Return", self)
+        self.buttonbox.addButton(self.tipbutton,QDialogButtonBox.ActionRole)
         self.buttonbox.addButton(self.ironbutton,QDialogButtonBox.ActionRole)
         self.buttonbox.addButton(self.savebutton,QDialogButtonBox.ActionRole)
         self.buttonbox.addButton(self.returnbutton,QDialogButtonBox.ActionRole)

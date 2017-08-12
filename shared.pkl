@@ -2,13 +2,45 @@
 S'Plot'
 p1
 (lp2
-sS'Values'
+S'Voltage'
 p3
-(lp4
-sS'Fast'
+aS'Torque'
+p4
+aS'Flux Linkage'
 p5
-(lp6
-sS'Field'
+aS'Current'
+p6
+asS'Values'
 p7
 (lp8
-s.
+S'Ld/Lq'
+p9
+aS'Psi_d/Psi_q'
+p10
+aS'Voltage'
+p11
+aS'Torque'
+p12
+aS'Angel - Up/U'
+p13
+asS'Fast'
+p14
+(lp15
+S'Ld-Lq Identification'
+p16
+aS'Psid-Psiq Identification'
+p17
+aS'Efficience Feld'
+p18
+asS'Field'
+p19
+(lp20
+S'B - Induction [T]'
+p21
+aS'Vektor Potential'
+p22
+aS'H - Field Strength [kA/m]'
+p23
+aS'Current in Windings'
+p24
+as.

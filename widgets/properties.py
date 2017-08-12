@@ -9,6 +9,7 @@ Created on Tue Jul 18 08:21:24 2017
 import sys
 sys.path.append('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
 import os
+os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\widgets')
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import *

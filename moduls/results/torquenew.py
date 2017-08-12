@@ -14,36 +14,30 @@ file_2 = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\Ts.dat"
 
 with open(file_1, "r") as fig:
     x = []
+    deg = []
     y = []
     for line in fig:
         data = line.split()
         x.append((float(data[0])))
+        deg.append((float(10000)*float(data[0])))
         y.append((float(data[1])))
         
 with open(file_2, "r") as fig:
-    a = []
     b = []
     for line in fig:
         data = line.split()
-        a.append((float(data[0])))
         b.append((float(data[1])))
 
 
 plt.figure(figsize = (16,9),dpi=98)
 p1 = plt.subplot(211)
-p2 = plt.subplot(212)
 
-p1.plot(x,y,"r")
+p1.plot(deg,y,"red",label='Torque[Rotor]')
+p1.plot(deg,b,"blue",label='Torque[Stator]')
 p1.grid(True)
-p1.set_xlabel('t -- Time')
-p1.set_ylabel('Tr -- Rotor Torque [Nm]')
+p1.set_xlabel('Rotor Position -- [deg]')
+p1.set_ylabel('T -- Torque [Nm]')
 p1.legend()
-
-p2.plot(a,b,"r")
-p2.grid(True)
-p2.set_xlabel('t -- Time')
-p2.set_ylabel('Ts -- Stator Torque [Nm]')
-p2.legend()
 
 
 plt.suptitle("Torque Plot")

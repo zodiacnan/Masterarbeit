@@ -8,7 +8,7 @@ Created on Wed Jun  7 18:48:25 2017
 
 import os
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
 os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
@@ -107,7 +107,7 @@ class UI_Main(QMainWindow):
     def addFileEx(self):
         #draw accounding to Geometry Examples, a new GUI
         import subprocess
-        command = "openexample.py"
+        command = "widgets\\openexample.py"
         subprocess.Popen(command, shell = True)
     
     def addFileOpen(self):
@@ -144,14 +144,14 @@ class UI_Main(QMainWindow):
                        '//you can get help from GetDp online or PDF Book and see the format according to example\n']
         f1.writelines(add_content)
         f1.close()
-        subprocess.call('notepad new.pro')
+        subprocess.call('notepad new.pro',shell = True)
     
     def Material_B(self):
         pass
     
     def About_FEM(self):
         import webbrowser
-        webbrowser.open('https://github.com/zodiacnan/MA')
+        webbrowser.open('https://github.com/zodiacnan/Masterarbeit')
     
     def About_GMSH(self):
         import webbrowser
@@ -297,6 +297,7 @@ class UI_Frame(QWidget):
         self.cal_button.clicked.connect(self.open_cal)
         self.view_button.clicked.connect(self.open_view)
         self.geo.clicked.connect(self.show_geo)
+        self.msh.clicked.connect(self.show_msh)
     
     def createChildGUI(self):
         self.info()
@@ -356,14 +357,16 @@ class UI_Frame(QWidget):
         subprocess.Popen(command, shell = True)
           
     def show_geo(self):
-        print(1)
         os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
         geo_pic = "moduls\\PMSM1\\pmsm_cbmag.png"
         self.pic.setPixmap(QPixmap(geo_pic))
         self.pic.setAlignment(QtCore.Qt.AlignCenter)
     
     def show_msh(self):
-        pass
+        os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
+        geo_pic = "moduls\\PMSM1\\pmsm_cbmag_msh.png"
+        self.pic.setPixmap(QPixmap(geo_pic))
+        self.pic.setAlignment(QtCore.Qt.AlignCenter)
     
     def run_solver(self):
         pass

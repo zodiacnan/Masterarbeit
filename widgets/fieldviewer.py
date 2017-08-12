@@ -23,46 +23,63 @@ class F_Viewer(QWidget):
         self.leftLayout()
         self.rightLayout()
         self.mainLayout = QHBoxLayout()
-        self.mainLayout.addLayout(self.left)
-        self.mainLayout.addLayout(self.right)
+        self.mainLayout.addWidget(self.buttonbox)
+        self.mainLayout.addWidget(self.area)
         self.mainLayout.setStretch(0,1)
         self.mainLayout.setStretch(1,5)
-        
         self.setLayout(self.mainLayout)
         
     def leftLayout(self):
-        self.left = QGridLayout()
-        button1 = QPushButton("Geometry")
-        button2 = QPushButton("Mesh Geo")
-        button3 = QPushButton("Boundary")
-        button4 = QPushButton("Vector Potential")
-        button5 = QPushButton("B-Field")
-        button6 = QPushButton("B-radial")
-        button7 = QPushButton("B-tangent")
-        button8 = QPushButton("Flux Line")
-        button9 = QPushButton("Demagnetization")
-        button10 = QPushButton("Clear")
-        
-        self.left.addWidget(button1)
-        self.left.addWidget(button2)
-        self.left.addWidget(button3)
-        self.left.addWidget(button4)
-        self.left.addWidget(button5)
-        self.left.addWidget(button6)
-        self.left.addWidget(button7)
-        self.left.addWidget(button8)
-        self.left.addWidget(button9)
-        self.left.addWidget(button10)
+        self.buttonbox = QDialogButtonBox()
+        self.buttonbox = QDialogButtonBox(QtCore.Qt.Vertical)
+        self.button1 = QPushButton("Geometry")
+        #self.button1.setCheckable(True)
+        self.button2 = QPushButton("Mesh Geo")
+        #self.button2.setCheckable(True)
+        self.button3 = QPushButton("Boundary")
+        #self.button3.setCheckable(True)
+        self.button4 = QPushButton("Vector Potential")
+        self.button5 = QPushButton("B-Field")
+        self.button6 = QPushButton("B-radial")
+        self.button7 = QPushButton("B-tangent")
+        self.button8 = QPushButton("Flux Line")
+        self.button9 = QPushButton("Demagnetization")
+        self.button10 = QPushButton("Clear")
+        self.buttonbox.addButton(self.button1,QDialogButtonBox.ActionRole)
+        self.buttonbox.addButton(self.button2,QDialogButtonBox.ActionRole)
+        self.buttonbox.addButton(self.button3,QDialogButtonBox.ActionRole)
+        self.buttonbox.addButton(self.button4,QDialogButtonBox.ActionRole)
+        self.buttonbox.addButton(self.button5,QDialogButtonBox.ActionRole)
+        self.buttonbox.addButton(self.button6,QDialogButtonBox.ActionRole)
+        self.buttonbox.addButton(self.button7,QDialogButtonBox.ActionRole)
+        self.buttonbox.addButton(self.button8,QDialogButtonBox.ActionRole)
+        self.buttonbox.addButton(self.button9,QDialogButtonBox.ActionRole)
+        self.buttonbox.addButton(self.button10,QDialogButtonBox.ActionRole)
+        self.buttonbox.clicked.connect(self.change_pic)
         
     def rightLayout(self):
+        self.area = QGroupBox()
         self.right = QVBoxLayout()
-        os.chdir("D:\\Onelab\\machines\\res\\")
-        vp = "az.png"
+        
+        os.chdir("C:\Users\DINGNAN\Desktop\NanDing\MA\moduls\PMSM1")
+        vp = ""
         self.label = QLabel()
         self.label.setPixmap(QPixmap(vp))
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.right.addWidget(self.label)
-
+        self.area.setLayout(self.right)
+        
+    def change_pic(self, clicked):
+        os.chdir("C:\Users\DINGNAN\Desktop\NanDing\MA\moduls\PMSM1")
+        if self.button1.pressed(True):
+            vp = "pmsm_cbmag.png"
+            self.label.setPixmap(QPixmap(vp))
+            self.label.setAlignment(QtCore.Qt.AlignCenter)
+            return
+        elif self.button2.isChecked():
+            vp = "pmsm_cbmag_msh.png"
+            self.label.setPixmap(QPixmap(vp))
+            self.label.setAlignment(QtCore.Qt.AlignCenter)
         
         
         

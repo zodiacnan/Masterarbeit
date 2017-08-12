@@ -121,7 +121,7 @@ class open_motor(QWidget):
     def ok_and_cancel(self):
         self.box = QDialogButtonBox()
         self.box = QDialogButtonBox(QtCore.Qt.Horizontal)
-        self.save = QPushButton("Save", self)
+        self.save = QPushButton("Dimension", self)
         self.returnb = QPushButton("Return", self)
         self.box.addButton(self.save, QDialogButtonBox.ActionRole)
         self.box.addButton(self.returnb, QDialogButtonBox.ActionRole)

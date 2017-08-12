@@ -17,11 +17,9 @@ Created on Thu Jun 29 10:05:32 2017
 import sys
 import os
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-import sys
 os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
-import subprocess
 import pickle
 
 class Field_Cal(QWidget):
@@ -215,14 +213,30 @@ class Field_Cal(QWidget):
         #show the infomation of motor
         fp = open("shared.pkl")
         shared = pickle.load(fp)
-        a = str(shared["Fast"]).replace("'","").replace("[","").replace("]","")
-        b = str(shared["Field"]).replace("'","").replace("[","").replace("]","")
-        c = str(shared["Plot"]).replace("'","").replace("[","").replace("]","")
-        d = str(shared["Values"]).replace("'","").replace("[","").replace("]","")
-        self.vboxGroupBox = QGroupBox()
+        a = str(shared["Fast"]).replace("'","").replace(",","\n")
+        b = str(shared["Field"]).replace("'","").replace(",","\n")
+        c = str(shared["Plot"]).replace("'","").replace(",","\n")
+        d = str(shared["Values"]).replace("'","").replace(",","\n")
+        if a == "[]":
+            a = str(["No function to calculate"]).replace("'","")
+        if b == "[]":
+            b = str(["No field to plot"]).replace("'","")
+        if c == "[]":
+            c = str(["No plot to create"]).replace("'","")
+        if d == "[]":
+            d = str(["No value to calculate"]).replace("'","")
+            
+        self.vboxGroupBox = QGroupBox("Selected Functions")
         self.vboxGroupBox.setAlignment(QtCore.Qt.AlignCenter)
         
-        self.select = QGroupBox("Selected Functions")
+        self.text_1 = QLabel("Fast Calculation")
+        self.text_1.setFont(QFont("verdana",10,QFont.Bold)) 
+        self.text_2 = QLabel("Field")
+        self.text_2.setFont(QFont("verdana",10,QFont.Bold)) 
+        self.text_3 = QLabel("Plot")
+        self.text_3.setFont(QFont("verdana",10,QFont.Bold)) 
+        self.text_4 = QLabel("Value")
+        self.text_4.setFont(QFont("verdana",10,QFont.Bold)) 
         self.label_1 = QLabel(self)
         self.label_2 = QLabel(self)
         self.label_3 = QLabel(self)
@@ -232,10 +246,14 @@ class Field_Cal(QWidget):
         self.label_3.setText(c)
         self.label_4.setText(d)
         layout = QGridLayout()
-        layout.addWidget(self.label_1)
-        layout.addWidget(self.label_2)
-        layout.addWidget(self.label_3)
-        layout.addWidget(self.label_4)
+        layout.addWidget(self.text_1,1,0)
+        layout.addWidget(self.text_2,3,0)
+        layout.addWidget(self.text_3,5,0)
+        layout.addWidget(self.text_4,7,0)
+        layout.addWidget(self.label_1,2,0)
+        layout.addWidget(self.label_2,4,0)
+        layout.addWidget(self.label_3,6,0)
+        layout.addWidget(self.label_4,8,0)
         self.vboxGroupBox.setLayout(layout)
         
     def creatFormGroupBox(self):
@@ -332,12 +350,7 @@ class Field_Cal(QWidget):
         f1.close()
         f2.close()
         
-        
         self.close()
-        
-        
-
-
         
     
     def return_last(self):
