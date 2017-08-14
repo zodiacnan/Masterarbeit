@@ -7,12 +7,13 @@ Created on Wed Jun  7 18:48:25 2017
 """
 
 import os
+os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
-os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
 import subprocess
+import pickle
 
 class UI_Main(QMainWindow):
     
@@ -184,8 +185,9 @@ class UI_Frame(QWidget):
         
         
     def createMenuBox(self):
-        self.MenuBox = QGroupBox("Menu")
+        self.MenuBox = QGroupBox()
         self.MenuBox.setMaximumWidth(120)
+        self.MenuBox.setStyleSheet("border: no;")
         leftlayout = QVBoxLayout()
         
         self.motor_button = QToolButton()
@@ -292,12 +294,14 @@ class UI_Frame(QWidget):
         self.MenuBox.setLayout(leftlayout)
         self.motor_button.clicked.connect(self.open_motorSetup)
         self.property_button.clicked.connect(self.open_pro)
+        self.geo.clicked.connect(self.datatemp)
         self.mesh_button.clicked.connect(self.open_meshGUI)
         self.sol_button.clicked.connect(self.open_solver)
         self.cal_button.clicked.connect(self.open_cal)
         self.view_button.clicked.connect(self.open_view)
         self.geo.clicked.connect(self.show_geo)
         self.msh.clicked.connect(self.show_msh)
+        
     
     def createChildGUI(self):
         self.info()
@@ -308,13 +312,200 @@ class UI_Frame(QWidget):
         
         
     def info(self):
-        self.groupInfo = QGroupBox('Info')
+        self.dimension()
+        self.setup()
+        self.function()
+        self.groupInfo = QGroupBox('Information')
+        self.infolayout = QVBoxLayout()
+        self.infolayout.addWidget(self.text)
+        self.infolayout.addLayout(self.layout1)
+        self.infolayout.addWidget(self.text2)
+        self.infolayout.addLayout(self.layout2)
+        self.infolayout.addWidget(self.text3)
+        self.infolayout.addLayout(self.layout3)
+        self.infolayout.setStretch(1,1)
+        self.infolayout.setStretch(2,1)
+        self.infolayout.setStretch(3,1)
+        self.infolayout.setStretch(4,1)
+        self.groupInfo.setLayout(self.infolayout)
+    
+    
+    def datatemp(self):
+        a = ''
+        b = ''
+        c = ''
+        d = ''
+        e = ''
+        f = ''
+        g = ''
+        try:
+            fp = open("temptoUI.pkl",'r')
+            shared = pickle.load(fp)
+            print(shared)
+            for i in range(0,len(shared)):
+                print(len(shared))
+                a = str(shared[0])
+                b = str(shared[1])
+                c = str(shared[2])
+                d = str(shared[3])
+                e = str(shared[4])
+                f = str(shared[5])
+                g = str(shared[6])
+        except:
+            print("No load")
+            a = ''
+            b = ''
+            c = ''
+            d = ''
+            e = ''
+            f = ''
+            g = ''
+        print(a)
+        print(e)
+        
+        self.outers_t.setText(a)
+        self.inners_t.setText(b)
+        self.outerr_t.setText(c)
+        self.innerr_t.setText(d)
+        self.slots_t.setText(e)
+        self.slotr_t.setText(f)      
+        self.shaft_d_t.setText(g)
+        
+    def dimension(self):
+
+        self.layout1 = QVBoxLayout()
+        self.layout11 = QHBoxLayout()
+        font = QtGui.QFont("verdana",10)
+        font.setUnderline(True)
+        font2 = QtGui.QFont("verdana",9)
+        font2.setUnderline(True)
+        self.text = QLabel("Geometry and Preprocessor",self)
+        self.text.setFont(font)
+        self.main_dimension = QLabel("Main dimension",self)
+        self.main_dimension.setFont(font2)
+        self.property = QLabel("Properties",self)
+        self.property.setFont(font2)
+        self.outers = QLabel("Outer diameter",self)
+        self.inners = QLabel("Inner diameter",self)
+        self.slots = QLabel("Slot",self)
+        
+        self.outerr = QLabel("Outer diameter",self)
+        self.innerr = QLabel("Inner diameter",self)
+        self.slotr = QLabel("Slot",self)
+        
+        self.shaft_d = QLabel("Diameter",self)
+        
+        self.outers_t = QLabel(self)
+        self.inners_t = QLabel(self)
+        self.outerr_t = QLabel(self)
+        self.innerr_t = QLabel(self)
+        self.slots_t = QLabel('',self)
+        self.slotr_t = QLabel('',self)        
+        self.shaft_d_t = QLabel("",self)
+        self.outers_t.setText('')
+        self.inners_t.setText('')
+        self.outerr_t.setText('')
+        self.innerr_t.setText('')
+        self.slots_t.setText('')
+        self.slotr_t.setText('')      
+        self.shaft_d_t.setText('')
+        
+        
+        self.material_list = QLabel("Fe\nAir\nCu")
+        self.boundary_list = QLabel("Magnetic potential\nA = 0")
+        self.material = QGroupBox("Materials")
+        self.boundary = QGroupBox("Boundary Condition")
+
+        self.stator = QGroupBox("Stator",self)
+        self.rotor = QGroupBox("Rotor",self)
+        self.shaft = QGroupBox("Shaft",self)
+        
+        self.grid1 = QGridLayout()
+        self.grid2 = QGridLayout()
+        self.grid3 = QGridLayout()
+        self.gridm = QGridLayout()
+        self.gridbd = QGridLayout()
+        self.layout1.addWidget(self.main_dimension)
+        self.layout1.addWidget(self.stator)
+        self.layout1.addWidget(self.rotor)
+        self.layout1.addWidget(self.shaft)
+        self.layout1.addWidget(self.property)
+        self.material.setLayout(self.gridm)
+        self.boundary.setLayout(self.gridbd)
+        self.layout11.addWidget(self.material)
+        self.layout11.addWidget(self.boundary)
+        self.layout1.addLayout(self.layout11)
+        
+        self.grid1.addWidget(self.outers,1,0)
+        self.grid1.addWidget(self.inners,2,0)
+        self.grid1.addWidget(self.slots,3,0)
+        self.grid2.addWidget(self.outerr,1,0)
+        self.grid2.addWidget(self.innerr,2,0)
+        self.grid2.addWidget(self.slotr,3,0)
+        self.grid3.addWidget(self.shaft_d,1,0)
+        
+        self.grid1.addWidget(self.outers_t,1,1)
+        self.grid1.addWidget(self.inners_t,2,1)
+        self.grid1.addWidget(self.slots_t,3,1)
+        self.grid2.addWidget(self.outerr_t,1,1)
+        self.grid2.addWidget(self.innerr_t,2,1)
+        self.grid2.addWidget(self.slotr_t,3,1)
+        self.grid3.addWidget(self.shaft_d_t,1,1)
+        
+        self.gridm.addWidget(self.material_list,1,0)
+        self.gridbd.addWidget(self.boundary_list,1,0)
+        self.stator.setLayout(self.grid1)
+        self.rotor.setLayout(self.grid2)
+        self.shaft.setLayout(self.grid3)
+        
+    def setup(self):
+        self.layout2 = QVBoxLayout()
+        font = QtGui.QFont("verdana",10)
+        font.setUnderline(True)
+        self.text2 = QLabel("Solver",self)
+        self.text2.setFont(font)
+        
+        self.s_name = QLabel("GetDp -- Linear/Nonlinear",self)
+        self.field = QLabel("Electromagnitic field",self)
+        self.analysis = QLabel("Steady State/Time domain/Frequency domain")
+        
+        self.gridsolve = QGridLayout()
+        self.solverbox = QGroupBox("")
+        self.solverbox.setLayout(self.gridsolve)
+        self.gridsolve.addWidget(self.s_name,1,0)
+        self.gridsolve.addWidget(self.field,2,0)
+        self.gridsolve.addWidget(self.analysis,3,0)
+        self.layout2.addWidget(self.solverbox)
+        
+    def function(self):
+        self.layout3 = QVBoxLayout()
+        font = QtGui.QFont("verdana",10)
+        font.setUnderline(True)
+        self.text3 = QLabel("Function")
+        self.text3.setFont(font)
+        self.label0 = QLabel("Special Fast",self)
+        self.label1 = QLabel("Plot",self)
+        self.label2 = QLabel("Field",self)
+        self.label3 = QLabel("Value Table",self)
+        
+        self.label01 = QLabel("Induction Identification \nLoss Calculation \nEfficiency Plot ")
+        
+        self.funcform = QGridLayout()
+        
+        self.funcform.addWidget(self.label0,1,0)
+        self.funcform.addWidget(self.label1,2,0)
+        self.funcform.addWidget(self.label2,3,0)
+        self.funcform.addWidget(self.label3,4,0)
+        self.func_box = QGroupBox("")
+        
+        self.func_box.setLayout(self.funcform)
+        self.layout3.addWidget(self.func_box)
     
     def geometry_chart(self):
         self.groupGeo = QGroupBox('Geometry and Chart')
         self.groupGeo.setFixedWidth(700)
         self.sublayout2 = QVBoxLayout()
-        geo_pic = ""
+        geo_pic = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\PMSM1\\pmsm1.JPG"
         self.pic = QLabel()
         self.pic.setPixmap(QPixmap(geo_pic))
         self.pic.setAlignment(QtCore.Qt.AlignCenter)
@@ -370,6 +561,7 @@ class UI_Frame(QWidget):
     
     def run_solver(self):
         pass
+    
 if __name__=="__main__":    
     app= QApplication.instance()
     if app == None:

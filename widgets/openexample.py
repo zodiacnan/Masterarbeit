@@ -132,9 +132,11 @@ class open_motor(QWidget):
         if self.stator1.isSelected() and self.rotor1.isSelected():
             print("geo.pos")
             print("msh.pos")
+            outtoUI = str("PMSM1")
             command = "widgets\\motordata.py"
             subprocess.Popen(command, shell = True)
         elif self.stator2.isSelected() and self.rotor2.isSelected():
+            outtoUI = str("PMSM2")
             command = "widgets\\motordata2.py"
             subprocess.Popen(command, shell = True)
         elif self.stator3.isSelected() and self.rotor3.isSelected():
@@ -142,6 +144,7 @@ class open_motor(QWidget):
             subprocess.Popen(command, shell = True)
         else:
             print("Stator and rotor may not suit")
+        return outtoUI
 
     def cancel_button(self):
         self.close()

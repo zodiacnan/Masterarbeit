@@ -11,6 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
+import pickle
 
 
 class MotorData(QWidget):
@@ -156,8 +157,17 @@ class MotorData(QWidget):
         self.setLayout(layout)
         self.returnbutton.clicked.connect(self.close)
         self.savebutton.clicked.connect(self.write_geo)
+        self.savebutton.clicked.connect(self.storetemp)
     def cancel(self):
         self.close()
+    
+    def storetemp(self):
+        l = []
+        l.extend([str(self.le_cmd_rR1.text()),str(self.le_cmd_rRext.text()),str(self.le_cmd_rS1.text()),str(self.le_cmd_rSext.text())])
+        shared = l
+        print(l)
+        fp = open("temptoUI.pkl","w+")
+        pickle.dump(shared,fp)
         
     def write_geo(self):
         # this part will be copyed to data geo

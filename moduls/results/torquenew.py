@@ -9,8 +9,8 @@ Created on Fri Aug 04 11:22:00 2017
 import matplotlib.pyplot as plt
 
 
-file_1 = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\Tr.dat"
-file_2 = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\Ts.dat"
+file_1 = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res_time\\Tr.dat"
+file_2 = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res_time\\Ts.dat"
 
 with open(file_1, "r") as fig:
     x = []
@@ -21,6 +21,12 @@ with open(file_1, "r") as fig:
         x.append((float(data[0])))
         deg.append((float(10000)*float(data[0])))
         y.append((float(data[1])))
+    num = len(y)
+    print(num)
+    torque_r = sum(y)/num
+    print(torque_r)
+    compare = []
+    compare.append(float(torque_r))
         
 with open(file_2, "r") as fig:
     b = []
@@ -34,6 +40,7 @@ p1 = plt.subplot(211)
 
 p1.plot(deg,y,"red",label='Torque[Rotor]')
 p1.plot(deg,b,"blue",label='Torque[Stator]')
+p1.plot(deg,compare, "green", label='Torque_e')
 p1.grid(True)
 p1.set_xlabel('Rotor Position -- [deg]')
 p1.set_ylabel('T -- Torque [Nm]')

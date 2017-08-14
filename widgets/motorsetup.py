@@ -11,6 +11,7 @@ import os
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+import pickle
 
 class Motor_SetUp(QWidget):
     def __init__(self,*args,**kwargs):
@@ -88,6 +89,7 @@ class Motor_SetUp(QWidget):
         self.downlayout.addWidget(self.buttonbox)
         self.downGUI.setLayout(self.downlayout)
         self.showbutton.clicked.connect(self.show_geo)
+        self.savebutton.clicked.connect(self.store_temp)
         
     def right(self):
         self.rightGUI = QLabel()
@@ -110,6 +112,25 @@ class Motor_SetUp(QWidget):
         command = "gmsh.exe "+ filename
         subprocess.Popen(command, shell = False)
         pass
+    
+    def store_temp(self):
+        os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
+        try:
+            fp = open("temptoUI.pkl",'r')
+            shared = pickle.load(fp)
+            fp.close()
+            shared.extend([str(self.NSTS_nr.text()),str(self.NST_nr.text()),str(self.gap_nr.text())])
+            fp = open("temptoUI.pkl",'w')
+            pickle.dump(shared,fp)
+            print(shared)
+            fp.close()
+
+        except:
+            print("No load")
+            
+        
+        
+        
     
 
 if __name__=="__main__":
