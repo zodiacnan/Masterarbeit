@@ -7,10 +7,4 @@ aS'rRext + Airgap'
 p3
 aS'46'
 p4
-aS'24'
-p5
-aS'8'
-p6
-aS'0.55'
-p7
 a.

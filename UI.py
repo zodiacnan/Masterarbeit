@@ -316,6 +316,7 @@ class UI_Frame(QWidget):
         self.setup()
         self.function()
         self.groupInfo = QGroupBox('Information')
+        self.groupInfo.setFixedWidth(500)
         self.infolayout = QVBoxLayout()
         self.infolayout.addWidget(self.text)
         self.infolayout.addLayout(self.layout1)
@@ -347,32 +348,36 @@ class UI_Frame(QWidget):
                 a = str(shared[0])
                 b = str(shared[1])
                 c = str(shared[2])
-                d = str(shared[3])
-                e = str(shared[4])
-                f = str(shared[5])
-                g = str(shared[6])
+                d = str(shared[3])   
         except:
             print("No load")
             a = ''
             b = ''
             c = ''
             d = ''
+        try:
+            fp = open("temptoUI2.pkl",'r')
+            shared2 = pickle.load(fp)
+            print(shared2)
+            for i in range(0,len(shared)):
+                print(len(shared2))
+                e = str(shared2[0])
+                f = str(shared2[1])
+                g = str(shared2[2])
+        except:
+            print("No load")
             e = ''
             f = ''
             g = ''
-        print(a)
-        print(e)
-        
-        self.outers_t.setText(a)
-        self.inners_t.setText(b)
-        self.outerr_t.setText(c)
-        self.innerr_t.setText(d)
+        self.outers_t.setText(d)
+        self.inners_t.setText(c)
+        self.outerr_t.setText(b)
+        self.innerr_t.setText(a)
         self.slots_t.setText(e)
         self.slotr_t.setText(f)      
         self.shaft_d_t.setText(g)
         
     def dimension(self):
-
         self.layout1 = QVBoxLayout()
         self.layout11 = QHBoxLayout()
         font = QtGui.QFont("verdana",10)

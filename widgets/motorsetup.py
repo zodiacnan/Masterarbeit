@@ -114,25 +114,13 @@ class Motor_SetUp(QWidget):
         pass
     
     def store_temp(self):
+        l = []
         os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
-        try:
-            fp = open("temptoUI.pkl",'r')
-            shared = pickle.load(fp)
-            fp.close()
-            shared.extend([str(self.NSTS_nr.text()),str(self.NST_nr.text()),str(self.gap_nr.text())])
-            fp = open("temptoUI.pkl",'w')
-            pickle.dump(shared,fp)
-            print(shared)
-            fp.close()
-
-        except:
-            print("No load")
-            
+        shared2 =l
+        shared2.extend([str(self.NSTS_nr.text()),str(self.NST_nr.text()),str(self.gap_nr.text())])
+        fp = open("temptoUI2.pkl",'w+')
+        pickle.dump(shared2,fp)
         
-        
-        
-    
-
 if __name__=="__main__":
     # Create Qt App
     app= QApplication.instance()

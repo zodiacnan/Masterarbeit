@@ -26,21 +26,19 @@ p13
 asS'Fast'
 p14
 (lp15
-S'Iron Losses'
+S'Ld-Lq Identification'
 p16
-aS'Ld-Lq Identification'
-p17
 aS'Psid-Psiq Identification'
-p18
-aS'Efficience Feld'
-p19
+p17
 asS'Field'
+p18
+(lp19
+S'B - Induction [T]'
 p20
-(lp21
-S'Vektor Potential'
-p22
+aS'Vektor Potential'
+p21
 aS'H - Field Strength [kA/m]'
-p23
+p22
 aS'Current in Windings'
-p24
+p23
 as.
