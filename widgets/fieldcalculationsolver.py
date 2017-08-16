@@ -67,29 +67,38 @@ class Solver_Cal(QWidget):
         
         self.tree1 = QTreeWidget()
         self.tree1.setMinimumWidth(400)
+        self.tree1.setMaximumHeight(150)
         self.tree1.setHeaderLabel("Fast Calculation ")
-        
         self.tree2 = QTreeWidget()
         self.tree2.setMinimumWidth(400)
         self.tree2.setHeaderLabel("Motor Calculate Functions")
         
-        self.item0 = QTreeWidgetItem(self.tree1, ["[Functions]"])
-        self.item0.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
-        
-        self.item00 = QTreeWidgetItem(self.item0, ["Iron Losses"])
-        self.item00.setCheckState(0, QtCore.Qt.Unchecked)
-        self.item00.setFlags(QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled)
-        self.item01 = QTreeWidgetItem(self.item0,["Ld-Lq Identification"])
-        self.item01.setCheckState(0, QtCore.Qt.Unchecked)
-        self.item02 = QTreeWidgetItem(self.item0,["Psid-Psiq Identification"])
-        self.item02.setCheckState(0, QtCore.Qt.Unchecked)
-        self.item03 = QTreeWidgetItem(self.item0, ["Efficience Feld"])
-        self.item03.setCheckState(0, QtCore.Qt.Unchecked)
-        self.item04 = QTreeWidgetItem(self.item0, ["Angle [Up/U] at maximal Torque"])
-        self.item04.setCheckState(0, QtCore.Qt.Unchecked)
+        item0 = QTreeWidgetItem([''])
+        self.tree1.insertTopLevelItem(0,item0)
+        item1 = QTreeWidgetItem([''])
+        self.tree1.insertTopLevelItem(0,item1)
+        item2 = QTreeWidgetItem([''])
+        self.tree1.insertTopLevelItem(0,item2)
+        item3 = QTreeWidgetItem([''])
+        self.tree1.insertTopLevelItem(0,item3)
+        self.b3 = QPushButton("Iron losses",self)
+        self.b3.setStyleSheet("background-color: white")
+        self.b3.clicked.connect(self.open_iron)
+        self.b4 = QPushButton("Ld-Lq Identification",self)
+        self.b4.setStyleSheet("background-color: white")
+        self.b1 = QPushButton("Efficience Plot",self)
+        self.b1.setStyleSheet("background-color: white")
+        self.b1.clicked.connect(self.open_eff)
+        self.b2 = QPushButton("Angle [Up/U] at maximal Torque",self)
+        self.b2.setStyleSheet("background-color: white")
+        self.tree1.setItemWidget(item0,0,self.b1)
+        self.tree1.setItemWidget(item1,0,self.b2)
+        self.tree1.setItemWidget(item2,0,self.b3)
+        self.tree1.setItemWidget(item3,0,self.b4)
         
         self.item1 = QTreeWidgetItem(self.tree2, ["[Multiple Calculation-PMSM]"])
         self.item1.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
+        
         self.item11 = QTreeWidgetItem(self.item1, ["Plots"])
         self.item111 = QTreeWidgetItem(self.item11, ["Voltage"])
         self.item111.setCheckState(0, QtCore.Qt.Unchecked)
@@ -99,6 +108,8 @@ class Solver_Cal(QWidget):
         self.item113.setCheckState(0, QtCore.Qt.Unchecked)
         self.item114 = QTreeWidgetItem(self.item11, ["Current"])
         self.item114.setCheckState(0, QtCore.Qt.Unchecked)
+        self.item115 = QTreeWidgetItem(self.item11, ["Select All"])
+        self.item115.setCheckState(0, QtCore.Qt.Unchecked)
         
         self.item12 = QTreeWidgetItem(self.item1, ["Fields"])
         self.item121 = QTreeWidgetItem(self.item12, ["B - Induction [T]"])
@@ -109,8 +120,10 @@ class Solver_Cal(QWidget):
         self.item123.setCheckState(0, QtCore.Qt.Unchecked)
         self.item124 = QTreeWidgetItem(self.item12, ["Current in Windings"])
         self.item124.setCheckState(0, QtCore.Qt.Unchecked)
+        self.item125 = QTreeWidgetItem(self.item12, ["Select All"])
+        self.item125.setCheckState(0, QtCore.Qt.Unchecked)
         
-        self.item13 = QTreeWidgetItem(self.item1, ["Values"])
+        self.item13 = QTreeWidgetItem(self.item1, ["Values in Excel Table"])
         self.item132 = QTreeWidgetItem(self.item13, ["Ld/Lq"])
         self.item132.setCheckState(0, QtCore.Qt.Unchecked)
         self.item133 = QTreeWidgetItem(self.item13, ["Psi_d/Psi_q"])
@@ -121,31 +134,56 @@ class Solver_Cal(QWidget):
         self.item135.setCheckState(0, QtCore.Qt.Unchecked)
         self.item136 = QTreeWidgetItem(self.item13,["Angel - Up/U"])
         self.item136.setCheckState(0, QtCore.Qt.Unchecked)
+        self.item137 = QTreeWidgetItem(self.item13, ["Select All"])
+        self.item137.setCheckState(0, QtCore.Qt.Unchecked)
+        
         self.item2 = QTreeWidgetItem(self.tree2, ["[Multiple Calculation- Wound Rotor SM]"])
         
         self.tree1.expandAll()
         self.tree2.expandAll()
-        #self.tree.itemClicked.connect(self.find_checked)
         self.tree1.itemClicked.connect(self.handleItemChanged)
         self.tree2.itemClicked.connect(self.handleItemChanged)
         
     def handleItemChanged(self):
-        Fast = []
+        if self.item115.checkState(0) == QtCore.Qt.Checked:
+            self.item111.setCheckState(0, QtCore.Qt.Checked)
+            self.item112.setCheckState(0, QtCore.Qt.Checked)
+            self.item113.setCheckState(0, QtCore.Qt.Checked)
+            self.item114.setCheckState(0, QtCore.Qt.Checked)
+        elif self.item115.checkState(0) == QtCore.Qt.Unchecked:
+            self.item111.setCheckState(0, QtCore.Qt.Unchecked)
+            self.item112.setCheckState(0, QtCore.Qt.Unchecked)
+            self.item113.setCheckState(0, QtCore.Qt.Unchecked)
+            self.item114.setCheckState(0, QtCore.Qt.Unchecked)
+        
+        if self.item125.checkState(0) == QtCore.Qt.Checked:
+            self.item121.setCheckState(0, QtCore.Qt.Checked)
+            self.item122.setCheckState(0, QtCore.Qt.Checked)
+            self.item123.setCheckState(0, QtCore.Qt.Checked)
+            self.item124.setCheckState(0, QtCore.Qt.Checked)
+        elif self.item125.checkState(0) == QtCore.Qt.Unchecked:
+            self.item121.setCheckState(0, QtCore.Qt.Unchecked)
+            self.item122.setCheckState(0, QtCore.Qt.Unchecked)
+            self.item123.setCheckState(0, QtCore.Qt.Unchecked)
+            self.item124.setCheckState(0, QtCore.Qt.Unchecked)
+        
+        if self.item137.checkState(0) == QtCore.Qt.Checked:
+            self.item132.setCheckState(0, QtCore.Qt.Checked)
+            self.item133.setCheckState(0, QtCore.Qt.Checked)
+            self.item134.setCheckState(0, QtCore.Qt.Checked)
+            self.item135.setCheckState(0, QtCore.Qt.Checked)
+            self.item136.setCheckState(0, QtCore.Qt.Checked)
+        elif self.item137.checkState(0) == QtCore.Qt.Unchecked:
+            self.item132.setCheckState(0, QtCore.Qt.Unchecked)
+            self.item133.setCheckState(0, QtCore.Qt.Unchecked)
+            self.item134.setCheckState(0, QtCore.Qt.Unchecked)
+            self.item135.setCheckState(0, QtCore.Qt.Unchecked)
+            self.item136.setCheckState(0, QtCore.Qt.Unchecked)
+        
         Plot = []
         Field = []
         Values = []
-        if self.item00.checkState(0) == QtCore.Qt.Checked:
-            a0 = str(self.item00.text(0))
-            Fast.append(a0)
-        if self.item01.checkState(0) == QtCore.Qt.Checked:
-            a1 = str(self.item01.text(0))
-            Fast.append(a1)
-        if self.item02.checkState(0) == QtCore.Qt.Checked:
-            a2 = str(self.item02.text(0))
-            Fast.append(a2)
-        if self.item03.checkState(0) == QtCore.Qt.Checked:
-            a3 = str(self.item03.text(0))
-            Fast.append(a3)
+        
         if self.item111.checkState(0) == QtCore.Qt.Checked:
             a111 = str(self.item111.text(0))
             Plot.append(a111)
@@ -185,14 +223,12 @@ class Solver_Cal(QWidget):
         if self.item136.checkState(0) == QtCore.Qt.Checked:
             a136 = str(self.item136.text(0))
             Values.append(a136)
-        print Fast
         print Plot
         print Field
         print Values
-        shared = {"Fast":Fast,"Plot":Plot,"Field":Field,"Values":Values}
+        shared = {"Plot":Plot,"Field":Field,"Values":Values}
         fp = open("shared.pkl","w")
         pickle.dump(shared,fp)
-        return Fast
         return Plot
         return Field
         return Values
@@ -203,12 +239,10 @@ class Solver_Cal(QWidget):
         self.buttonbox = QDialogButtonBox()
         self.buttonbox = QDialogButtonBox(QtCore.Qt.Horizontal)
         self.tipbutton = QPushButton("Tips to select functions")
-        self.ironbutton = QPushButton("Iron Loss Setup",self)
         
         self.savebutton = QPushButton("Save", self)
         self.returnbutton = QPushButton("Return", self)
         self.buttonbox.addButton(self.tipbutton,QDialogButtonBox.ActionRole)
-        self.buttonbox.addButton(self.ironbutton,QDialogButtonBox.ActionRole)
         self.buttonbox.addButton(self.savebutton,QDialogButtonBox.ActionRole)
         self.buttonbox.addButton(self.returnbutton,QDialogButtonBox.ActionRole)
         layout = QFormLayout()
@@ -216,7 +250,6 @@ class Solver_Cal(QWidget):
         self.formGroupBox.setLayout(layout)
         self.savebutton.clicked.connect(self.setup_getdp)
         self.savebutton.clicked.connect(self.setup_function)
-        self.ironbutton.clicked.connect(self.open_iron)
         self.returnbutton.clicked.connect(self.close)
         
     def content_createGridGroupBox(self):
@@ -302,6 +335,10 @@ class Solver_Cal(QWidget):
         
     def open_iron(self):
         command = "widgets\\iron.py"
+        subprocess.Popen(command, shell = True)
+        
+    def open_eff(self):
+        command = "widgets\\efficiency.py"
         subprocess.Popen(command, shell = True)
     
     def setup_function(self):

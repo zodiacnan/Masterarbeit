@@ -17,7 +17,7 @@ with open(file_1, "r") as fig:
     for line in fig:
         data = line.split()
         x.append((float(data[0])))
-        deg.append((float(10000)*float(data[0])))
+        deg.append((float(9000)*float(data[0])))
         y.append((float(data[1])))
 
 with open(file_2, "r") as fig:

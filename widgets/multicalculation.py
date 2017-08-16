@@ -213,12 +213,9 @@ class Field_Cal(QWidget):
         #show the infomation of motor
         fp = open("shared.pkl")
         shared = pickle.load(fp)
-        a = str(shared["Fast"]).replace("'","").replace(",","\n")
         b = str(shared["Field"]).replace("'","").replace(",","\n")
         c = str(shared["Plot"]).replace("'","").replace(",","\n")
         d = str(shared["Values"]).replace("'","").replace(",","\n")
-        if a == "[]":
-            a = str(["No function to calculate"]).replace("'","")
         if b == "[]":
             b = str(["No field to plot"]).replace("'","")
         if c == "[]":
@@ -229,28 +226,22 @@ class Field_Cal(QWidget):
         self.vboxGroupBox = QGroupBox("Selected Functions")
         self.vboxGroupBox.setAlignment(QtCore.Qt.AlignCenter)
         
-        self.text_1 = QLabel("Fast Calculation")
-        self.text_1.setFont(QFont("verdana",10,QFont.Bold)) 
         self.text_2 = QLabel("Field")
         self.text_2.setFont(QFont("verdana",10,QFont.Bold)) 
         self.text_3 = QLabel("Plot")
         self.text_3.setFont(QFont("verdana",10,QFont.Bold)) 
         self.text_4 = QLabel("Value")
         self.text_4.setFont(QFont("verdana",10,QFont.Bold)) 
-        self.label_1 = QLabel(self)
         self.label_2 = QLabel(self)
         self.label_3 = QLabel(self)
         self.label_4 = QLabel(self)
-        self.label_1.setText(a)
         self.label_2.setText(b)
         self.label_3.setText(c)
         self.label_4.setText(d)
         layout = QGridLayout()
-        layout.addWidget(self.text_1,1,0)
         layout.addWidget(self.text_2,3,0)
         layout.addWidget(self.text_3,5,0)
         layout.addWidget(self.text_4,7,0)
-        layout.addWidget(self.label_1,2,0)
         layout.addWidget(self.label_2,4,0)
         layout.addWidget(self.label_3,6,0)
         layout.addWidget(self.label_4,8,0)
@@ -258,7 +249,7 @@ class Field_Cal(QWidget):
         
     def creatFormGroupBox(self):
         self.buttonbox = QDialogButtonBox()
-        self.buttonBox = QDialogButtonBox(QtCore.Qt.Horizontal)
+        self.buttonbox = QDialogButtonBox(QtCore.Qt.Horizontal)
         self.savebutton = QPushButton("Save", self)
         self.returnbutton = QPushButton("Return", self)
         self.buttonbox.addButton(self.savebutton,QDialogButtonBox.ActionRole)

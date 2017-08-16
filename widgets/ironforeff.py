@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 """
+Created on Wed Aug 16 15:15:15 2017
+
+@author: DINGNAN
+"""
+
+#iron for eff
+# -*- coding: utf-8 -*-
+"""
 Created on Sun Jul 30 21:03:24 2017
 
 @author: DINGNAN
@@ -14,14 +22,13 @@ from PyQt5.QtWidgets import *
 class Iron_Set(QWidget):
     def __init__(self,*args,**kwargs):
         super(Iron_Set, self).__init__()
-        self.setWindowTitle("Iron - and Cu-Losses - EVALUATION")
+        self.setWindowTitle("Iron - and Cu-Losses - SETUP")
         self.setWindowIcon(QIcon('C:\Users\DINGNAN\Desktop\NanDing\MA\moduls\icon\main.jpg'))
         self.initUI()
 
 
     def initUI(self):
         self.left()
-        self.right()
         self.Box()
         main = QVBoxLayout()
         main1 = QHBoxLayout()
@@ -30,7 +37,6 @@ class Iron_Set(QWidget):
         main1.addLayout(main11)
         main1.addLayout(main12)
         main11.addLayout(self.layout1)
-        main12.addLayout(self.form)
         main.addLayout(main1)
         main.addWidget(self.buttonbox)
         self.setLayout(main)
@@ -104,39 +110,14 @@ class Iron_Set(QWidget):
         self.layout1.addWidget(self.ch_t,15,1)
 
         
-    
-    def right(self):
-        self.layout2 = QGroupBox("Loss Equation")
-        self.form = QFormLayout()
-        self.angel = QLabel("Angel_Belta [Up/I]")
-        self.angel_a = QLineEdit("10")
-        self.speed = QLabel("Speed    [rad/min]")
-        self.speed_e = QLineEdit("1500")
-        self.current = QLabel("Current    [A]")
-        self.current_c = QComboBox(self)
-        self.list = [self.tr('abc-Phase Current'), self.tr('dq-Phase Current')]
-        self.current_c.addItems(self.list)
-        self.current_t = QLineEdit("10")
-        self.form.addRow(self.angel,self.angel_a)
-        self.form.addRow(self.speed,self.speed_e)
-        self.form.addRow(self.current)
-        self.form.addRow(self.current_c,self.current_t)
-        self.form.addRow(self.layout2)
-        
     def Box(self):
         self.buttonbox = QDialogButtonBox()
         self.buttonbox = QDialogButtonBox(QtCore.Qt.Horizontal)
-        self.calbutton = QPushButton("Calculate B-Feld", self)
-        self.tablebutton = QPushButton("Calculate Losses[Fe/Cu]", self)
-        self.plotbutton = QPushButton("Create Result Table", self)
+        
+        self.savebutton = QPushButton("Save Setup", self)
         self.cancelbutton = QPushButton("Cancel", self)
-        self.cal_a = QPushButton("Calculate area of iron losses [mm2]",self)
-        self.buttonbox.addButton(self.cal_a,QDialogButtonBox.ActionRole)
-        self.buttonbox.addButton(self.calbutton,QDialogButtonBox.ActionRole)
-        self.buttonbox.addButton(self.tablebutton,QDialogButtonBox.ActionRole)
-        self.buttonbox.addButton(self.plotbutton,QDialogButtonBox.ActionRole)
+        self.buttonbox.addButton(self.savebutton,QDialogButtonBox.ActionRole)
         self.buttonbox.addButton(self.cancelbutton,QDialogButtonBox.ActionRole)
-        self.calbutton.clicked.connect(self.cancel)
 
     def cal_save(self):
         frq = self.frq_t.text()
@@ -192,7 +173,7 @@ if __name__=="__main__":
     if app == None:
         app = QApplication(sys.argv)
     window = Iron_Set()
-    window.setGeometry(100,100,900,000)
+    window.setGeometry(100,100,600,000)
     window.show()
     app.exec_()
     sys.exit(0)

@@ -95,6 +95,7 @@ def write_excel():
     row_0 = ['RotorPosition','Theta[el]','Id[A]','Iq[A]','Flux_d[Vs]','Flux_q[Vs]','Ld[mH]','Lq[mH]','Torque_S[Nm]','Torque_R[Nm]']
     Id = [0]*len(deg_r)
     Iq = [10]*len(deg_r)
+    Lq = map(lambda x,y:y*1000/x,Iq,Fq)
     for i in range(0,len(row_0)):
         sheet_1.col(i).width = col_width
         sheet_1.write(0,i,row_0[i],set_style('Time New Roman',220,True))
@@ -105,6 +106,7 @@ def write_excel():
         sheet_1.write(j+1,3,Iq[j])
         sheet_1.write(j+1,4,Fd[j])
         sheet_1.write(j+1,5,Fq[j])
+        sheet_1.write(j+1,7,Lq[j])
         sheet_1.write(j+1,8,Ts[j])
         sheet_1.write(j+1,9,Tr[j])
     f.save('LdandLq.xls')
