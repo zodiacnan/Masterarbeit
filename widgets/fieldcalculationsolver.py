@@ -85,6 +85,7 @@ class Solver_Cal(QWidget):
         self.b3.setStyleSheet("background-color: white")
         self.b3.clicked.connect(self.open_iron)
         self.b4 = QPushButton("Ld-Lq Identification",self)
+        self.b4.clicked.connect(self.open_ldq)
         self.b4.setStyleSheet("background-color: white")
         self.b1 = QPushButton("Efficience Plot",self)
         self.b1.setStyleSheet("background-color: white")
@@ -339,6 +340,10 @@ class Solver_Cal(QWidget):
         
     def open_eff(self):
         command = "widgets\\efficiency.py"
+        subprocess.Popen(command, shell = True)
+    
+    def open_ldq(self):
+        command = "widgets\\LdundLqGUI.py"
         subprocess.Popen(command, shell = True)
     
     def setup_function(self):

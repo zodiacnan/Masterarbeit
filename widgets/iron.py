@@ -136,7 +136,7 @@ class Iron_Set(QWidget):
         self.buttonbox.addButton(self.tablebutton,QDialogButtonBox.ActionRole)
         self.buttonbox.addButton(self.plotbutton,QDialogButtonBox.ActionRole)
         self.buttonbox.addButton(self.cancelbutton,QDialogButtonBox.ActionRole)
-        self.calbutton.clicked.connect(self.cancel)
+        self.cancelbutton.clicked.connect(self.cancel)
 
     def cal_save(self):
         frq = self.frq_t.text()

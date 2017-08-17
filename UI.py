@@ -549,9 +549,8 @@ class UI_Frame(QWidget):
         subprocess.Popen(command, shell = True)
         
     def open_view(self):
-        command = "widgets\\fieldviewer.py"
+        command = "widgets\\view.py"
         subprocess.Popen(command, shell = True)
-          
     def show_geo(self):
         os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
         geo_pic = "moduls\\PMSM1\\pmsm_cbmag.png"
