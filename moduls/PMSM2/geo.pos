@@ -1,0 +1,5 @@
+// merge CAD file
+Merge "pmsm.geo";
+
+// print image
+Print "pmsm.png";

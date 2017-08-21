@@ -9,8 +9,8 @@ Created on Mon Aug 07 09:53:26 2017
 import matplotlib.pyplot as plt
 
 
-file_1 = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res_time\\Flux_d.dat"
-file_2 = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res_time\\Flux_q.dat"
+file_1 = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\Flux_d.dat"
+file_2 = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\Flux_q.dat"
 
 with open(file_1, "r") as fig:
     x = []

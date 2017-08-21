@@ -52,7 +52,6 @@ class Condition(QWidget):
         self.modify_button.clicked.connect(self.modify_bc)
         self.delete_button.clicked.connect(self.delete_bc)
         self.finishbutton.clicked.connect(self.finish_bc)
-        self.autobutton.clicked.connect(self.automatic_bc)
         self.cancelbutton.clicked.connect(self.cancel)
     
         
@@ -83,10 +82,6 @@ class Condition(QWidget):
         add_content = [add]
         f1.writelines(add_content)
         f1.close()
-        self.close()
-    
-    def automatic_bc(self):
-        pass
     
     def cancel(self):
         self.close()

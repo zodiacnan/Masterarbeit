@@ -8,7 +8,7 @@ Created on Mon Jul 17 16:54:44 2017
 import sys
 import os
 os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
-
+import webbrowser
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -28,26 +28,30 @@ class ViewGUI(QWidget):
         self.l1 = QLabel("Fast Calculation")
         self.l1.setFont(font)
         self.button1 = QPushButton("Create Results in HTML")
+        self.button1.clicked.connect(self.Fast_html)
         self.open1 = QPushButton("Open")
-        self.open1.clicked.connect(self.fast_open)
+        self.open1.clicked.connect(self.Open_Fasthtml)
         self.l2 = QLabel("MultiCalculation")
         self.l2.setFont(font)
-        self.l21 = QPushButton("Create Value Tabel")
-        self.l211 = QPushButton("Convert to HTML")
+        self.l21 = QPushButton("Create Value Tabel and Convert to HTML")
         self.l212 = QPushButton("Open")
+        self.l21.clicked.connect(self.Multi_html)
+        self.l212.clicked.connect(self.Open_Multihtml)
         self.l22 = QPushButton("Create Plot")
         self.l221 = QPushButton("Convert to HTML")
         self.l222 = QPushButton("Open")
         self.l23 = QPushButton("Field Viewer")
         self.l23.clicked.connect(self.field_viewer)
         
+        self.l24 = QPushButton("Open in Gmsh")
+        self.l24.clicked.connect(self.open_gmsh)
+        
         gridview = QGridLayout()
         gridview.addWidget(self.l1,1,0)
         gridview.addWidget(self.button1,1,1,1,2)
         gridview.addWidget(self.open1,1,3)
         gridview.addWidget(self.l2,2,0)
-        gridview.addWidget(self.l21,2,1)
-        gridview.addWidget(self.l211,2,2)
+        gridview.addWidget(self.l21,2,1,1,2)
         gridview.addWidget(self.l212,2,3)
         
         gridview.addWidget(self.l22,3,1)
@@ -55,6 +59,7 @@ class ViewGUI(QWidget):
         gridview.addWidget(self.l222,3,3)
         
         gridview.addWidget(self.l23,4,1)
+        gridview.addWidget(self.l24,4,2)
         main.addLayout(gridview)
         
         hbox = QHBoxLayout()
@@ -72,13 +77,30 @@ class ViewGUI(QWidget):
         main.addLayout(hbox)
         self.setLayout(main)    
 
-    def fast_open(self):
-        import webbrowser
-        webbrowser.open('moduls\\results\\LdandLq.html')
         
     def field_viewer(self):
         command = "widgets\\fieldviewer.py"
         subprocess.Popen(command, shell = True)
+        
+    def open_gmsh(self):
+        command = "gmsh C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\results\\pos\\postopng.pos"
+        subprocess.Popen(command, shell = True)
+        
+    def Fast_html(self):
+        command = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\results\\excelwrite.py"
+        subprocess.Popen(command, shell = True)
+    
+    def Open_Fasthtml(self):
+        os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\results\\')
+        webbrowser.open("LdandLq.html")
+    
+    def Multi_html(self):
+        command = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\results\\multitable.py"
+        subprocess.Popen(command, shell = True)
+    
+    def Open_Multihtml(self):
+        os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\results\\')
+        webbrowser.open("multifuction_table.html")
         
 if __name__=="__main__":
     # Create Qt App

@@ -47,7 +47,6 @@ class Material(QWidget):
         self.list_box.setLayout(layout)
         self.add_button.clicked.connect(self.add_function)
         self.modify_button.clicked.connect(self.modify_function)
-        self.delete_button.clicked.connect(self.delete_function)
         self.finishbutton.clicked.connect(self.finish_function)
         self.cancelbutton.clicked.connect(self.cancel)
     
@@ -63,9 +62,6 @@ class Material(QWidget):
         subprocess.Popen(command, shell = True)
         
     
-    def delete_function(self):
-        pass
-    
     def finish_function(self):
         os.chdir('C:\Users\DINGNAN\Desktop\NanDing\MA\moduls\examples')
         filename_m = 'material.pro'
@@ -76,11 +72,10 @@ class Material(QWidget):
         except:
             print('Something went wrong')
         
-        f1 = open(filename, 'w+')
+        f1 = open(filename_m, 'w+')
         add_content = [add]
         f1.writelines(add_content)
         f1.close()
-        self.close()
         
     def cancel(self):
         self.close()

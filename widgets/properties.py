@@ -7,7 +7,6 @@ Created on Tue Jul 18 08:21:24 2017
 
 #properties
 import sys
-sys.path.append('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
 import os
 os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\widgets')
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -27,11 +26,11 @@ class Pro_Button(QWidget):
         
         self.group = QGroupBox('')
         self.material = QPushButton('Material')
-        self.material.setFixedSize(175,50)
+        self.material.setFixedSize(250,75)
         self.bc = QPushButton('Boundary Condition')
-        self.bc.setFixedSize(175,50)
+        self.bc.setFixedSize(250,75)
         self.winding = QPushButton('Windings [Stator]')
-        self.winding.setFixedSize(175,50)
+        self.winding.setFixedSize(250,75)
         self.buttons = QVBoxLayout()
         self.buttons.addWidget(self.material)
         self.buttons.addWidget(self.bc)

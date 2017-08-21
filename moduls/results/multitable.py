@@ -22,19 +22,45 @@ deg = []
 Theta = []
 Iq = []
 Id = []
+Ua = []
+Ub = []
+Uc = []
 Fd = []
 Fq = []
-Ld = []
-Lq = []
+L = []
 Tr = []
 Ts = []
 deg_r = []
 Id.append(float(0))
 Iq.append(float(10))
+file_Ua = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\Ua.dat"
+file_Ub = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\Ub.dat"
+file_Uc = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\Uc.dat"
 file_tr = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\Tr.dat"
 file_ts = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\Ts.dat"
 file_fd = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\Flux_d.dat"
 file_fq = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\Flux_q.dat"
+file_l = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\machines\\res\\inductance.dat"
+
+with open(file_Ua, "r") as fig:
+    for line in fig:
+        data = line.split()
+        Ua.append((float(data[1])))
+
+with open(file_Ub, "r") as fig:
+    for line in fig:
+        data = line.split()
+        Ub.append((float(data[1])))
+
+with open(file_Uc, "r") as fig:
+    for line in fig:
+        data = line.split()
+        Uc.append((float(data[1])))
+
+with open(file_l, "r") as fig:
+    for line in fig:
+        data = line.split()
+        L_value = float(data[1])
 
 with open(file_fd, "r") as fig:
     count = 0
@@ -91,10 +117,11 @@ def set_style(name,height,bold = True):
 def write_excel():
     f = xlwt.Workbook()
     col_width = 256*15
-    sheet_1 = f.add_sheet('LdandLq' , cell_overwrite_ok = True)
-    row_0 = ['RotorPosition','Theta[Park]','Id[A]','Iq[A]','Flux_d[Vs]','Flux_q[Vs]','Ld[mH]','Lq[mH]','Torque_S[Nm]','Torque_R[Nm]']
+    sheet_1 = f.add_sheet('multifuction_table' , cell_overwrite_ok = True)
+    row_0 = ['RotorPosition','Theta[Park]','Id[A]','Iq[A]','Ua[V]','Ub[V]','Uc[V]','Flux_d[Vs]','Flux_q[Vs]','Torque_S[Nm]','Torque_R[Nm]','Inductance from Flux[mH]']
     Id = [0]*len(deg_r)
     Iq = [10]*len(deg_r)
+    L = [L_value]*len(deg_r)
     for i in range(0,len(row_0)):
         sheet_1.col(i).width = col_width
         sheet_1.write(0,i,row_0[i],set_style('Time New Roman',220,True))
@@ -103,15 +130,19 @@ def write_excel():
         sheet_1.write(j+1,1,Theta_r[j])
         sheet_1.write(j+1,2,Id[j])
         sheet_1.write(j+1,3,Iq[j])
-        sheet_1.write(j+1,4,Fd[j])
-        sheet_1.write(j+1,5,Fq[j])
-        sheet_1.write(j+1,8,Ts[j])
-        sheet_1.write(j+1,9,Tr[j])
-    f.save('LdandLq.xls')
+        sheet_1.write(j+1,4,Ua[j])
+        sheet_1.write(j+1,5,Ub[j])
+        sheet_1.write(j+1,6,Uc[j])
+        sheet_1.write(j+1,7,Fd[j])
+        sheet_1.write(j+1,8,Fq[j])
+        sheet_1.write(j+1,9,Ts[j])
+        sheet_1.write(j+1,10,Tr[j])
+        sheet_1.write(j+1,11,L[j])
+    f.save('multifuction_table.xls')
     
-    df_excel = pd.ExcelFile('LdandLq.xls')
-    df = df_excel.parse('LdandLq')  # give summary sheet name
-    df.to_html('LdandLq.html')
+    df_excel = pd.ExcelFile('multifuction_table.xls')
+    df = df_excel.parse('multifuction_table')  # give summary sheet name
+    df.to_html('multifuction_table.html')
 
 
 if __name__ == '__main__':

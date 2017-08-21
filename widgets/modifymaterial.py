@@ -5,12 +5,11 @@ Created on Thu Jul 20 21:18:54 2017
 @author: DINGNAN
 """
 import sys
-sys.path.append('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
 import os
+os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\')
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-import subprocess
 
 
 class Motify_M(QWidget):
@@ -22,13 +21,13 @@ class Motify_M(QWidget):
     def GUI(self):
         self.main = QHBoxLayout()
         layout_GUI = QVBoxLayout()
-        self.layout1 = QGridLayout()
-        self.layout2 = QGroupBox('Linear Properties')
-        self.layout3 = QGroupBox('Nonlinear Properties')
-        self.layout4 = QGroupBox('BH-Plot')
-        self.layout4.hide()
-        self.layout3.setEnabled(False)
-        self.layout5 = QGroupBox('Lamination')
+        self.layouta = QGridLayout()
+        self.layoutb = QGroupBox('Linear Properties')
+        self.layoutc = QGroupBox('Nonlinear Properties')
+        self.layoutd = QGroupBox('BH-Plot')
+        self.layoutd.hide()
+        self.layoutc.setEnabled(False)
+        self.layoute = QGroupBox('Lamination')
         
         
         self.b_t = QLabel('Remanent induction [T]')
@@ -42,10 +41,10 @@ class Motify_M(QWidget):
         self.buttonbox.addButton(self.returnbutton,QDialogButtonBox.ActionRole)
 
         
-        layout_GUI.addLayout(self.layout1)
-        layout_GUI.addWidget(self.layout2)
-        layout_GUI.addWidget(self.layout3)
-        layout_GUI.addWidget(self.layout5)
+        layout_GUI.addLayout(self.layouta)
+        layout_GUI.addWidget(self.layoutb)
+        layout_GUI.addWidget(self.layoutc)
+        layout_GUI.addWidget(self.layoute)
         layout_GUI.addWidget(self.buttonbox)
         
         self.nameLabel = QLabel('  Name', self)
@@ -58,10 +57,10 @@ class Motify_M(QWidget):
         self.bh_box.addItems(self.bh_boxlist)
         self.bh_box.setCurrentIndex(0)
         
-        self.layout1.addWidget(self.nameLabel,1,0)
-        self.layout1.addWidget(self.name, 1, 1)
-        self.layout1.addWidget(self.bh_curve,2,0)
-        self.layout1.addWidget(self.bh_box, 2, 1)
+        self.layouta.addWidget(self.nameLabel,1,0)
+        self.layouta.addWidget(self.name, 1, 1)
+        self.layouta.addWidget(self.bh_curve,2,0)
+        self.layouta.addWidget(self.bh_box, 2, 1)
         
         self.name.currentIndexChanged.connect(self.change_1)
         self.name.currentIndexChanged.connect(self.change_2)
@@ -71,12 +70,12 @@ class Motify_M(QWidget):
         self.mur_text = QLineEdit('1000')
         self.mur0 = QLabel('Air Permeability     μ[0]')
         self.mur0_text = QLineEdit('4π*10e-7')
-        layout2_child = QGridLayout()
-        layout2_child.addWidget(self.mur, 1, 0)
-        layout2_child.addWidget(self.mur_text, 1, 1)
-        layout2_child.addWidget(self.mur0, 2, 0)
-        layout2_child.addWidget(self.mur0_text, 2, 1)
-        self.layout2.setLayout(layout2_child)
+        layoutb_child = QGridLayout()
+        layoutb_child.addWidget(self.mur, 1, 0)
+        layoutb_child.addWidget(self.mur_text, 1, 1)
+        layoutb_child.addWidget(self.mur0, 2, 0)
+        layoutb_child.addWidget(self.mur0_text, 2, 1)
+        self.layoutb.setLayout(layoutb_child)
         
         self.chooseLabel = QLabel('Type of B-H Curve')
         self.curveButton = QComboBox()
@@ -90,14 +89,14 @@ class Motify_M(QWidget):
         self.showButton = QPushButton('Plot Curve')
         self.addcurve = QPushButton('Load new B-H Curve')
         
-        layout3_child = QGridLayout()
-        layout3_child.addWidget(self.chooseLabel, 1, 0)
-        layout3_child.addWidget(self.curveButton, 1, 1)
-        layout3_child.addWidget(self.b_r, 2, 0)
-        layout3_child.addWidget(self.b_r_text, 2, 1)
-        layout3_child.addWidget(self.showButton, 3, 1)
-        layout3_child.addWidget(self.addcurve, 4, 1)
-        self.layout3.setLayout(layout3_child)
+        layoutc_child = QGridLayout()
+        layoutc_child.addWidget(self.chooseLabel, 1, 0)
+        layoutc_child.addWidget(self.curveButton, 1, 1)
+        layoutc_child.addWidget(self.b_r, 2, 0)
+        layoutc_child.addWidget(self.b_r_text, 2, 1)
+        layoutc_child.addWidget(self.showButton, 3, 1)
+        layoutc_child.addWidget(self.addcurve, 4, 1)
+        self.layoutc.setLayout(layoutc_child)
         
         
         self.laminationButton = QComboBox()
@@ -107,20 +106,19 @@ class Motify_M(QWidget):
         self.sigma = QLabel('[σ] Conductivity [S/m]')
         self.sigma_text = QLineEdit('0')
         self.laminationButton.currentIndexChanged.connect(self.change_2)
-        layout5_child = QGridLayout()
-        layout5_child.addWidget(self.laminationButton, 1, 0, 1, 0)
-        layout5_child.addWidget(self.sigma, 2, 0)
-        layout5_child.addWidget(self.sigma_text, 2, 1)
-        self.layout5.setLayout(layout5_child)
+        layoute_child = QGridLayout()
+        layoute_child.addWidget(self.laminationButton, 1, 0, 1, 0)
+        layoute_child.addWidget(self.sigma, 2, 0)
+        layoute_child.addWidget(self.sigma_text, 2, 1)
+        self.layoute.setLayout(layoute_child)
         self.main.addLayout(layout_GUI)
-        self.main.addWidget(self.layout4)
+        self.main.addWidget(self.layoutd)
         self.setLayout(self.main)
-        self.bh_box.currentIndexChanged.connect(self.plot_curve)
+        
         self.curveButton.currentIndexChanged.connect(self.plot_curve)
         self.showButton.clicked.connect(self.plot_button)
         self.bh_box.currentIndexChanged.connect(self.Group_1)
         self.savebutton.clicked.connect(self.output)
-        self.returnbutton.clicked.connect(self.cancel)
         
     def change_1(self):
         nr = self.name.currentIndex()
@@ -151,26 +149,16 @@ class Motify_M(QWidget):
         bh_index = self.bh_box.currentIndex()
         nr= self.name.currentIndex()
         if bh_index == 1 and nr == 0:
-            self.layout3.setEnabled(True)
-            self.layout2.setEnabled(False)
-        elif bh_index == 0 and nr == 0 :
-            self.layout2.setEnabled(True)
-            self.layout3.setEnabled(False)
+            self.layoutc.setEnabled(True)
+            self.layoutb.setEnabled(False)
         else:
-            self.layout2.setEnabled(True)
-            self.layout3.setEnabled(False)
+            self.layoutb.setEnabled(True)
+            self.layoutc.setEnabled(False)
 
-        
-    def Group_3(self):
-        #nolinear properties
-        
-        pass
-    
 
     def plot_curve(self):
-        os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\B(H)curve\\')
         typ = self.curveButton.currentIndex()
-        pic = "Interpoleted.jpg"
+        pic = "moduls\\B(H)curve\\Interpoleted.jpg"
         if typ == 0:
             pic = "Interpoleted.jpg"
             self.Grid.setPixmap(QPixmap(pic))
@@ -183,22 +171,17 @@ class Motify_M(QWidget):
 
             
     def plot_button(self):
-        os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\B(H)curve\\')
-        pic = "Interpoleted.jpg"
+        pic = "moduls\\B(H)curve\\Interpoleted.jpg"
         area = QVBoxLayout()
         self.Grid = QLabel(self)
         self.Grid.setPixmap(QPixmap(pic))
         self.Grid.setAlignment(QtCore.Qt.AlignCenter)
         area.addWidget(self.Grid)
-        self.layout4.setLayout(area)
-        self.layout4.show()
-            
-    def edit_curve(self):
-        pass
+        self.layoutd.setLayout(area)
+        self.layoutd.show()
     
     
     def output(self):
-        os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\Material\\')
         nr = self.name.currentIndex()
         if nr == 0:
             name = "Fe"
@@ -258,10 +241,6 @@ class Motify_M(QWidget):
             print('Something went wrong')
         f = open(filename, 'w+')
         f.writelines(add)
-        f.close()
-        print("finish")
-    def cancel(self):
-        self.close()    
 
 if __name__=="__main__":
     # Create Qt App
@@ -270,7 +249,6 @@ if __name__=="__main__":
         app = QApplication(sys.argv)
     window = Motify_M()
     window.setWindowTitle('Material')
-    window.setGeometry(300,300,400,600)
     window.show()
     app.exec_()
     sys.exit(0)

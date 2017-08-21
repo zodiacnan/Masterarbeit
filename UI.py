@@ -510,13 +510,13 @@ class UI_Frame(QWidget):
         self.groupGeo = QGroupBox('Geometry and Chart')
         self.groupGeo.setFixedWidth(700)
         self.sublayout2 = QVBoxLayout()
-        geo_pic = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\PMSM1\\pmsm1.JPG"
+        geo_pic = "C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\icon\\pmsm.JPG"
         self.pic = QLabel()
         self.pic.setPixmap(QPixmap(geo_pic))
         self.pic.setAlignment(QtCore.Qt.AlignCenter)
         self.sublayout2.addWidget(self.pic)
         self.groupGeo.setLayout(self.sublayout2)
-        
+         
     
     def createErrorConsole(self):
         self.ErrorConsole = QGroupBox("Console")

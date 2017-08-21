@@ -12,6 +12,7 @@ import os
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+os.chdir("C:\Users\DINGNAN\Desktop\NanDing\MA\moduls\PMSM1")
 
 class F_Viewer(QWidget):
     def __init__(self,*args,**kwargs):
@@ -33,11 +34,8 @@ class F_Viewer(QWidget):
         self.buttonbox = QDialogButtonBox()
         self.buttonbox = QDialogButtonBox(QtCore.Qt.Vertical)
         self.button1 = QPushButton("Geometry")
-        #self.button1.setCheckable(True)
         self.button2 = QPushButton("Mesh Geo")
-        #self.button2.setCheckable(True)
         self.button3 = QPushButton("Boundary")
-        #self.button3.setCheckable(True)
         self.button4 = QPushButton("Vector Potential")
         self.button5 = QPushButton("B-Field")
         self.button6 = QPushButton("B-radial")
@@ -55,13 +53,17 @@ class F_Viewer(QWidget):
         self.buttonbox.addButton(self.button8,QDialogButtonBox.ActionRole)
         self.buttonbox.addButton(self.button9,QDialogButtonBox.ActionRole)
         self.buttonbox.addButton(self.button10,QDialogButtonBox.ActionRole)
-        self.buttonbox.clicked.connect(self.change_pic)
+        self.button1.clicked.connect(self.geometry)
+        self.button2.clicked.connect(self.mesh)
+        self.button3.clicked.connect(self.boundary)
+        self.button4.clicked.connect(self.vp)
+        self.button5.clicked.connect(self.bfeld)
+        self.button6.clicked.connect(self.b_radial)
+        self.button7.clicked.connect(self.b_tangent)
         
     def rightLayout(self):
         self.area = QGroupBox()
         self.right = QVBoxLayout()
-        
-        os.chdir("C:\Users\DINGNAN\Desktop\NanDing\MA\moduls\PMSM1")
         vp = ""
         self.label = QLabel()
         self.label.setPixmap(QPixmap(vp))
@@ -69,19 +71,40 @@ class F_Viewer(QWidget):
         self.right.addWidget(self.label)
         self.area.setLayout(self.right)
         
-    def change_pic(self, clicked):
-        os.chdir("C:\Users\DINGNAN\Desktop\NanDing\MA\moduls\PMSM1")
-        if self.button1.pressed(True):
-            vp = "pmsm_cbmag.png"
-            self.label.setPixmap(QPixmap(vp))
-            self.label.setAlignment(QtCore.Qt.AlignCenter)
-            return
-        elif self.button2.isChecked():
-            vp = "pmsm_cbmag_msh.png"
-            self.label.setPixmap(QPixmap(vp))
-            self.label.setAlignment(QtCore.Qt.AlignCenter)
+    def geometry(self):
+        vp = "pmsm_cbmag.png"
+        self.label.setPixmap(QPixmap(vp))
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
         
+    def mesh(self):
+        vp = "pmsm_cbmag_msh.png"
+        self.label.setPixmap(QPixmap(vp))
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+    
+    def boundary(self):
+        vp = "bnd.png"
+        self.label.setPixmap(QPixmap(vp))
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+    
+    def vp(self):
+        vp = "az.png"
+        self.label.setPixmap(QPixmap(vp))
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
         
+    def bfeld(self):
+        vp = "nb.png"
+        self.label.setPixmap(QPixmap(vp))
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+    
+    def b_radial(self):
+        vp = "b_radial.png"
+        self.label.setPixmap(QPixmap(vp))
+        self.label.setAlignment(QtCore.Qt.AlignCenter) 
+        
+    def b_tangent(self):
+        vp = "b_tangent.png"
+        self.label.setPixmap(QPixmap(vp))
+        self.label.setAlignment(QtCore.Qt.AlignCenter) 
         
 if __name__=="__main__":
     # Create Qt App
@@ -89,7 +112,7 @@ if __name__=="__main__":
     if app == None:
         app = QApplication(sys.argv)
     window = F_Viewer()
-    window.setGeometry(100, 100, 800, 640)
+    window.setGeometry(100, 100, 810, 400)
     window.setWindowTitle('Field Viewer')
     window.show()
     app.exec_()
