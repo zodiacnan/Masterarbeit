@@ -17,7 +17,7 @@ with open(file_1, "r") as fig:
     for line in fig:
         data = line.split()
         x.append((float(data[0])))
-        deg.append((float(9000)*float(data[0])))
+        deg.append((float(3000)*float(data[0])))
         y.append((float(data[1])))
 
 with open(file_2, "r") as fig:
@@ -33,16 +33,12 @@ with open(file_3, "r") as fig:
         n.append((float(data[1])))
 
 plt.figure(figsize = (16,9),dpi=98)
-p1 = plt.subplot(221)
-
-
-p1.plot(deg,y,'red',label='Ua')
-p1.plot(deg,b,'green',label='Ub')
-p1.plot(deg,n,'blue',label='Uc')
-p1.grid(True)
-p1.set_xlabel('Rotor Postion -- [deg]')
-p1.set_ylabel('Voltage in Phase')
-p1.legend()
-
-plt.suptitle("Voltage Plot")
+plt.plot(deg,y,'red',label='Ua')
+plt.plot(deg,b,'green',label='Ub')
+plt.plot(deg,n,'blue',label='Uc')
+plt.grid(True)
+plt.xlabel('Rotor Postion -- [deg]')
+plt.ylabel('Voltage in Phase')
+plt.legend()
+plt.savefig('Voltage.png')
 plt.show()

@@ -40,6 +40,7 @@ class ViewGUI(QWidget):
         self.l22 = QPushButton("Create Plot")
         self.l221 = QPushButton("Convert to HTML")
         self.l222 = QPushButton("Open")
+        self.l222.clicked.connect(self.Open_Plot)
         self.l23 = QPushButton("Field Viewer")
         self.l23.clicked.connect(self.field_viewer)
         
@@ -101,6 +102,10 @@ class ViewGUI(QWidget):
     def Open_Multihtml(self):
         os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\results\\')
         webbrowser.open("multifuction_table.html")
+        
+    def Open_Plot(self):
+        os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\results\\')
+        webbrowser.open("text.html")
         
 if __name__=="__main__":
     # Create Qt App

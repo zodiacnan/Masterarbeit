@@ -19,33 +19,29 @@ with open(file_1, "r") as fig:
     for line in fig:
         data = line.split()
         x.append((float(data[0])))
-        deg.append((float(9000)*float(data[0])))
+        deg.append((float(3000)*float(data[0])))
         y.append((float(data[1])))
-    num = len(y)
-    print(num)
-    torque_r = sum(y)/num
-    print(torque_r)
-    compare = []
-    compare.append(float(torque_r))
-        
+        Tmax = max(y)
 with open(file_2, "r") as fig:
+    count = 0
     b = []
     for line in fig:
-        data = line.split()
-        b.append((float(data[1])))
-
+        count +=1
+        if count%2 == 1:
+            data = line.split()
+            b.append((float(data[1])))
+        else:
+            pass
 
 plt.figure(figsize = (16,9),dpi=98)
-p1 = plt.subplot(211)
-
-p1.plot(deg,y,"red",label='Torque[Rotor]')
-p1.plot(deg,b,"blue",label='Torque[Stator]')
-p1.plot(deg,compare, "green", label='Torque_e')
-p1.grid(True)
-p1.set_xlabel('Rotor Position -- [deg]')
-p1.set_ylabel('T -- Torque [Nm]')
-p1.legend()
-
-
-plt.suptitle("Torque Plot")
+plt.plot(deg,y,"red",label = 'Torque[Rotor]')
+plt.plot(deg,b,"blue",label = 'Torque[Stator]')
+plt.grid(True)
+plt.xlabel('Rotor Position -- [deg]')
+plt.ylabel('T -- Torque [Nm]')
+plt.ylim(-1,float(Tmax)+20)
+plt.legend()
+plt.savefig('Torque.png')
 plt.show()
+
+

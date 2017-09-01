@@ -21,10 +21,9 @@ class Motor_SetUp(QWidget):
     
     def initUI(self):
         self.left()
-        self.right()
         GUIlayout = QVBoxLayout()
         GUIlayout.addWidget(self.leftGUI)
-        GUIlayout.addWidget(self.downGUI)
+        GUIlayout.addWidget(self.buttonbox)
         self.setLayout(GUIlayout)
     
     def left(self):
@@ -52,7 +51,7 @@ class Motor_SetUp(QWidget):
         self.NP_nr = QLineEdit('3')
         
         self.buttonbox = QDialogButtonBox()
-        self.buttonBox = QDialogButtonBox(QtCore.Qt.Horizontal)
+        self.buttonbox = QDialogButtonBox(QtCore.Qt.Horizontal)
         self.savebutton = QPushButton("Save", self)
         self.returnbutton = QPushButton("Return", self)
         self.showbutton = QPushButton("View Geometry in Gmsh", self)
@@ -85,15 +84,10 @@ class Motor_SetUp(QWidget):
         self.NPT_nr.textChanged.connect(self.change_2)
         self.NPIM_nr.textChanged.connect(self.change_2)
         
-        self.downlayout = QFormLayout()
-        self.downlayout.addWidget(self.buttonbox)
-        self.downGUI.setLayout(self.downlayout)
         self.showbutton.clicked.connect(self.show_geo)
         self.savebutton.clicked.connect(self.store_temp)
+        self.savebutton.clicked.connect(self.create_motorsetupfile)
         
-    def right(self):
-        self.rightGUI = QLabel()
-        pass
         
     def change_1(self):
         nptnr = int(self.NPT_nr.text())
@@ -111,7 +105,6 @@ class Motor_SetUp(QWidget):
         filename = "moduls\\PMSM1\\geo.pos"
         command = "gmsh.exe "+ filename
         subprocess.Popen(command, shell = False)
-        pass
     
     def store_temp(self):
         l = []
@@ -120,6 +113,31 @@ class Motor_SetUp(QWidget):
         shared2.extend([str(self.NSTS_nr.text()),str(self.NST_nr.text()),str(self.gap_nr.text())])
         fp = open("temptoUI2.pkl",'w+')
         pickle.dump(shared2,fp)
+        
+    def create_motorsetupfile(self):
+        mm = "mm=1e-3; \n"
+        deg = "deg2rad = Pi/180 ; \n"
+        npim = "NbrPolesInModel = " + str(self.NPIM_nr.text())+ ";\n"
+        ira = "InitialRotorAngle_deg = " + str(self.IRA_text.text())+ ";\n"
+        bp = "NbrPhases = " + str(self.NP_nr.text())+ ";\n"
+        nbt = "NbrPolesTot = " + str(self.NPT_nr.text())+ ";\n"
+        sf = "SymmetryFactor = NbrPolesTot/NbrPolesInModel ;\n "
+        nsts = "NbrSectTotStator  = " + str(self.NSTS_nr.text())+ ";\n"
+        al = "AxialLength = " + str(self.axial_nr.text())+ "*mm;\n"
+        gapair = "Gap = " + str(self.gap_nr.text())+"*mm;\n"
+        
+        filename = 'moduls\\temp\\motorsetupGUI.geo'
+        try: 
+            file = open(filename, 'w+')
+            file.truncate()
+            file.close()
+        except:
+            print('Something went wrong')
+        
+        f1 = open(filename, 'w+')
+        add_content = [mm,deg,npim,ira,bp,nbt,sf,nsts,al,gapair]
+        f1.writelines(add_content)
+        f1.close()
         
 if __name__=="__main__":
     # Create Qt App

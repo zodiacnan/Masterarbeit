@@ -144,16 +144,16 @@ class Field_Cal(QWidget):
         # Analysis Type of getdp
         self.l_analysis = QLabel('Type of Analysis', self)
         self.cmb_analysis = QComboBox(self)
-        self.analysis_list = [self.tr('Static'), self.tr('Time domain'),self.tr('Frequence domain')]
+        self.analysis_list = [self.tr('Static'), self.tr('Time domain')]
         self.cmb_analysis.addItems(self.analysis_list)
         self.cmb_analysis.setCurrentIndex(0)
         
         self.start_rotor_angel = QLabel("Start  Angel    [deg]", self)
         self.start_rotor_angel_text = QLineEdit("0", self)
         self.end_rotor_angel = QLabel("End    Angel    [deg]", self)
-        self.end_rotor_angel_text = QLineEdit("180", self)
+        self.end_rotor_angel_text = QLineEdit("90", self)
         self.step = QLabel("Step   Angel    [deg]", self)
-        self.step_text = QLineEdit("1", self)
+        self.step_text = QLineEdit("0.5", self)
         self.time_step = QLabel("Time Steps", self)
         self.time_step_nr = QLineEdit("180")
         self.cb_save = QCheckBox("Save all results [Time Domain]", self)
@@ -260,23 +260,17 @@ class Field_Cal(QWidget):
         toa = self.cmb_analysis.currentIndex()
         if toa == 0:
             toa_i = 'Flag_AnalysisType = 0 ;\n'
-            sa = str(self.start_rotor_angel_text.text())
-            sa_i = 'InitialRotorAngel_deg = ' + sa + ';\n'
+            sa_i =  'theta0   = InitialRotorAngle + 0. ;\n'
             ea_i = ''
-            ns_i = ''
             save = ''
             clean = ''
             speed_data = ''
-            speed_i = ''
             
         if toa == 1:
             toa_i = 'Flag_AnalysisType = 1 ;\n'
-            sa = str(self.start_rotor_angel_text.text())
-            sa_i = 'InitialRotorAngel_deg = ' + sa + ';\n'
+            sa_i = 'theta0   = InitialRotorAngle + 0. ; ;\n'
             ea = str(self.end_rotor_angel_text.text())
             ea_i = 'thetaMax_deg = ' + ea + ';\n'
-            ns = str(self.time_step_nr.text())
-            ns_i = 'NbSteps = ' + ns + ';\n'
             if self.cb_save.isChecked():
                 save = 'Flag_SaveAllSteps = 1 ;\n'
             else:
@@ -286,15 +280,8 @@ class Field_Cal(QWidget):
             else:
                 clean = 'Clean_Results = 0 ;\n'
                 
-            speed = str(self.parameter_data.text())
-            speed_data = 'rpm_nominal =' + speed + ';\n'
-            if speed == 0:
-                speed_i = 'Flag_ImposedSpeed = 0;\n'
-            else:
-                speed_i = 'Flag_ImposedSpeed = 1;\n'
+            speed_data = 'rpm_nominal =' + str(self.parameter_data.text()) + ';\n'
             
-        freq = str(self.frequenz_data.text())
-        freq_i = 'Freq = ' + freq + ';\n'
             
         stos = self.src_stator_op.currentIndex()
         Id = str(self.Id_set.text())
@@ -309,40 +296,35 @@ class Field_Cal(QWidget):
             stos_i = 'Flag_SrcType_Stator = 1 ;\n'
             flag_cir = 'Flag_Cir = 0 ;\n'
             Id_i = 'ID = ' + Id + ';\n'
-            Iq_i = 'ID = ' + Iq + ';\n'
+            Iq_i = 'IQ = ' + Iq + ';\n'
             I0_i = 'I0 = 0;\n'
         
         stor = self.src_rotor.currentIndex()
         if stor == 0:
             stor_i = 'Flag_SrcType_Rotor = 0 ;\n'
-            Ie_i = 'Ie = 0;\n'
         else:
-            ie = str(self.ie_text.text())
             stor_i = 'Flag_SrcType_Rotor = 0 ;\n'
-            Ie_i = 'Ie = ' + ie + ';\n'
         
+        #some others data to add in 
+        step_deg = "delta_theta_deg = "+ str(self.step_text.text())+";\n"
+        ii = "II = Inominal;\n"
+        ficd = "Flag_ImposedCurrentDensity = Flag_SrcType_Stator ;\n"
+        fp = "Flag_ParkTransformation = 1 ;\n"
+        print(1)
         os.chdir('C:\\Users\\DINGNAN\\Desktop\\NanDing\\MA\\moduls\\temp')
-        filename_1 = 'inputdata' + '.geo'
-        filename_2 = 'solverdata.pro'
+        file_pro = 'inputforpro.pro'
         try: 
-            file_1 = open(filename_1, 'w')
-            file_1.truncate()
-            file_1.close()
+            file = open(file_pro, 'w+')
+            file.truncate()
+            file.close()
         except:
             print('Something went wrong')
-        
-        f1 = open(filename_1, 'a')
-        f2 = open(filename_2, 'a')
-        add_geo = [sa_i, speed_data]
-        add_pro = [toa_i, save, clean, speed_i, stos_i, flag_cir, stor_i, ea_i
-                   , ns_i,freq_i, Id_i, Iq_i, I0_i, Ie_i]
-        f1.writelines(add_geo)
-        f2.writelines(add_pro)
+        add_pro = [speed_data,ii, Id_i, Iq_i, I0_i,ea_i,sa_i,step_deg, save, clean,toa_i,  stos_i, flag_cir, stor_i
+                   ,ficd,fp]
+        f1 = open(file_pro, 'w+')
+        f1.writelines(add_pro)
         f1.close()
-        f2.close()
-        
-        self.close()
-        
+        print(1)
     
     def return_last(self):
         #return to the GUI of Solver Setup
@@ -357,7 +339,7 @@ if __name__=="__main__":
     if app == None:
         app = QApplication(sys.argv)
     window = Field_Cal()
-    window.setGeometry(100, 100, 800, 600)
+    window.setGeometry(100, 100, 800, 500)
     window.setWindowTitle('Multicalculation')
     window.show()
     app.exec_()

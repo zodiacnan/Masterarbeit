@@ -169,7 +169,7 @@ Function {
   RotorPosition_deg[] = RotorPosition[]*180/Pi;
 
 //+++
-  Flag_ParkTransformation = 0 ;
+  Flag_ParkTransformation = 1 ;
   Theta_Park[] = ((RotorPosition[] + Pi/8) - Pi/6) * NbrPolePairs; // electrical degrees
   Theta_Park_deg[] = Theta_Park[]*180/Pi;
 

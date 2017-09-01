@@ -1,0 +1,10 @@
+mm = 1e-3 ;
+deg2rad = Pi/180 ;
+NbrPolesInModel = 1 ; 
+InitialRotorAngle_deg = 7.5 ; 
+NbrPhases = 3 ; 
+NbrPolesTot = 8 ; 
+SymmetryFactor = NbrPolesTot/NbrPolesInModel ; 
+NbrSectTotStator  = 24; 
+AxialLength = 35*mm; 
+Gap = 0.42*mm; 

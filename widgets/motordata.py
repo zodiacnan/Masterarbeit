@@ -186,7 +186,7 @@ class MotorData(QWidget):
         ws3 = 'ws3 =  ' + str(self.le_cmd_ws3.text()) + '*mm;\n'
         wsS1 = 'wsS1 =  ' + str(self.le_cmd_wsS1.text()) + '*mm;\n'
         wsS3 = 'wsS3 =  ' + str(self.le_cmd_wsS3.text()) + '*mm;\n'
-        mm = "mm=1e-3;"
+        
         
         filename = 'moduls\\temp\\geo_data.pro'
         try: 
@@ -197,7 +197,7 @@ class MotorData(QWidget):
             print('Something went wrong')
         
         f1 = open(filename, 'w+')
-        add_content = [mm,rR1,rR2,rR3,rRext,wrR3,wrR2,rS1,rS2,rS3,rS4,rSext,ws1,ws3,wsS1,wsS3]
+        add_content = [rR1,rR2,rR3,rRext,wrR3,wrR2,rS1,rS2,rS3,rS4,rSext,ws1,ws3,wsS1,wsS3]
         f1.writelines(add_content)
         f1.close()
         

@@ -77,9 +77,12 @@ class Motify_M(QWidget):
         layoutb_child.addWidget(self.mur0_text, 2, 1)
         self.layoutb.setLayout(layoutb_child)
         
-        self.chooseLabel = QLabel('Type of B-H Curve')
+        self.chooseLabel = QLabel('Type of Magnetic Material')
         self.curveButton = QComboBox()
-        self.curvelist = [self.tr('Analytical'), self.tr('Interpolated'), self.tr('Analytical VH800-65D'), self.tr('Interpolated VH800-65D'),]
+        self.curvelist = [self.tr('From Equation'), self.tr('[Interpolated]'),self.tr('[Interpolated] TK_270-50_PP'),
+                          self.tr('[Interpolated] TK_530-50_AP'),self.tr('[Interpolated] TKES_270-50_PP'),
+                          self.tr('[Interpolated] TKES_330-35_A'),self.tr('[Interpolated] TKES_330-50_A'),
+                          self.tr('[Interpolated] TKES_330-50_PP'),self.tr('[Interpolated] TKES_400-50_A'),]
         self.curveButton.addItems(self.curvelist)
         self.curveButton.setCurrentIndex(0)
         
@@ -88,6 +91,7 @@ class Motify_M(QWidget):
         
         self.showButton = QPushButton('Plot Curve')
         self.addcurve = QPushButton('Load new B-H Curve')
+        self.load = QPushButton("Load B-H Data")
         
         layoutc_child = QGridLayout()
         layoutc_child.addWidget(self.chooseLabel, 1, 0)
@@ -96,6 +100,7 @@ class Motify_M(QWidget):
         layoutc_child.addWidget(self.b_r_text, 2, 1)
         layoutc_child.addWidget(self.showButton, 3, 1)
         layoutc_child.addWidget(self.addcurve, 4, 1)
+        layoutc_child.addWidget(self.load, 5, 1)
         self.layoutc.setLayout(layoutc_child)
         
         
@@ -117,6 +122,7 @@ class Motify_M(QWidget):
         
         self.curveButton.currentIndexChanged.connect(self.plot_curve)
         self.showButton.clicked.connect(self.plot_button)
+        self.load.clicked.connect(self.loadbhdata)
         self.bh_box.currentIndexChanged.connect(self.Group_1)
         self.savebutton.clicked.connect(self.output)
         
@@ -156,19 +162,42 @@ class Motify_M(QWidget):
             self.layoutc.setEnabled(False)
 
 
-    def plot_curve(self):
+    def loadbhdata(self):
         typ = self.curveButton.currentIndex()
-        pic = "moduls\\B(H)curve\\Interpoleted.jpg"
         if typ == 0:
-            pic = "Interpoleted.jpg"
-            self.Grid.setPixmap(QPixmap(pic))
-            self.Grid.setAlignment(QtCore.Qt.AlignCenter)
-                
-        if typ == 1:
-            pic = "Interpoleted3kW.jpg"
-            self.Grid.setPixmap(QPixmap(pic))
-            self.Grid.setAlignment(QtCore.Qt.AlignCenter)
-
+            pass
+        if typ == 2:
+            subname = "TK_270-50_PP.txt"
+        if typ == 3:
+            subname = "TK_530-50_AP.txt"
+        
+        filename = "moduls\\B(H)curve\\"+subname
+        
+        with open(filename,"r") as fig:
+            B = []
+            H = []
+            for line in fig:
+                data = line.split()
+                H.append((data[0]))
+                B.append(float(data[1]))
+        mathb = "Mat1_b = {"+str(B)+"};\n"
+        mathh = "Mat1_h = {"+str(H)+"};\n"
+        print mathb
+        print mathh
+        
+        bhtxt = 'moduls\\B(H)curve\\BH_data.pro'
+        try: 
+            file = open(bhtxt, 'w+')
+            file.truncate()
+            file.close()
+        except:
+            print('Something went wrong')
+        f1 = open(bhtxt, 'w+')
+        add_content = [mathh,mathb]
+        f1.writelines(add_content)
+        f1.close()
+    def plot_curve(self):
+        pass
             
     def plot_button(self):
         pic = "moduls\\B(H)curve\\Interpoleted.jpg"

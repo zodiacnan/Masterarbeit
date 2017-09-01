@@ -87,11 +87,11 @@ class Solver_Cal(QWidget):
         self.b4 = QPushButton("Ld-Lq Identification",self)
         self.b4.clicked.connect(self.open_ldq)
         self.b4.setStyleSheet("background-color: white")
-        self.b1 = QPushButton("Efficience Plot",self)
-        self.b1.setStyleSheet("background-color: white")
-        self.b1.clicked.connect(self.open_eff)
-        self.b2 = QPushButton("Angle [Up/U] at maximal Torque",self)
+        self.b2 = QPushButton("Efficience Plot",self)
         self.b2.setStyleSheet("background-color: white")
+        self.b2.clicked.connect(self.open_eff)
+        self.b1 = QPushButton("Angle [Up/U] at maximal Torque",self)
+        self.b1.setStyleSheet("background-color: white")
         self.tree1.setItemWidget(item0,0,self.b1)
         self.tree1.setItemWidget(item1,0,self.b2)
         self.tree1.setItemWidget(item2,0,self.b3)
@@ -146,6 +146,8 @@ class Solver_Cal(QWidget):
         self.tree2.itemClicked.connect(self.handleItemChanged)
         
     def handleItemChanged(self):
+        flag_c = "Flag_Calculation = 0 ;"
+        global flag_c
         if self.item115.checkState(0) == QtCore.Qt.Checked:
             self.item111.setCheckState(0, QtCore.Qt.Checked)
             self.item112.setCheckState(0, QtCore.Qt.Checked)
@@ -263,7 +265,7 @@ class Solver_Cal(QWidget):
         self.cmb_NLLaw.setEnabled(False)
         
         self.nb_iter = QLabel("Iterations [Max = 30]", self)
-        self.nb_iter_text = QLineEdit("30", self)
+        self.nb_iter_text = QLineEdit("15", self)
         self.re_fact = QLabel("Relaxation Factor", self)
         self.re_fact_text = QLineEdit("1", self)
         self.stop_cri = QLabel("Stopping Criterion", self)
@@ -316,33 +318,36 @@ class Solver_Cal(QWidget):
             cri_i = ''
             ret_i = ''
             ab_i = ''
-
-
         print('A analysis File will be created')
-        filename = 'moduls\\temp\\solverdata.pro'
+        filename = 'moduls\\temp\\inputsolverGUI.pro'
         try: 
             file = open(filename, 'w+')
             file.truncate()
             file.close()
         except:
             print('Something went wrong')
-        
+        global flag_c
         f1 = open(filename, 'w+')
-        add_content = [FN, FNLLT,iter_i, re_i, cri_i, ret_i, ab_i]
+        add_content = [FN, FNLLT,iter_i, re_i, cri_i, ret_i, ab_i, flag_c]
         f1.writelines(add_content)
         f1.close()
         self.close()
         
         
     def open_iron(self):
+        flag_c = "Flag_Calculation = 2 ;"
+        global flag_c
         command = "widgets\\iron.py"
         subprocess.Popen(command, shell = True)
-        
+              
     def open_eff(self):
+        
         command = "widgets\\efficiency.py"
         subprocess.Popen(command, shell = True)
     
     def open_ldq(self):
+        flag_c = "Flag_Calculation = 1 ;"
+        global flag_c
         command = "widgets\\LdundLqGUI.py"
         subprocess.Popen(command, shell = True)
     
@@ -358,7 +363,7 @@ if __name__=="__main__":
         app = QApplication(sys.argv)
     window = Solver_Cal()
     window.setGeometry(100, 100, 800, 600)
-    window.setWindowTitle('Field Calculation')
+    window.setWindowTitle('Calculation Function')
     window.show()
     app.exec_()
     sys.exit(0)
